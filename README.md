@@ -27,9 +27,9 @@ Exercise 10.1: Illustrate the addition of the values 7 and then 3 to the BinaryH
 Now our heap reads: [4, 9, 6, 17, 26, 8, 7, 19, 69, 32, 93, 55, 50, 16]
 
 		       4
-	       9	      6
-	  17	  26	  8	   7
-	19  69  32  93  55  50  16
+	     9	      6
+	 17	  26	  8	  7
+	19  69  32  93  55  50  16
 
 
 3 starts at the right node of the new '7' node. 3 is smaller, so it traverses upward, switching with '7', then '6', then '4', finally resting at the root node.
