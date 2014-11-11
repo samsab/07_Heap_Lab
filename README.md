@@ -26,9 +26,9 @@ Exercise 10.1: Illustrate the addition of the values 7 and then 3 to the BinaryH
 7 starts at the left node of the '16' node. 16 is larger, so '7' and '16' swap. 7 is greater than 6, so it rests with '7' at index 6 and 16 at index 13.
 Now our heap reads: [4, 9, 6, 17, 26, 8, 7, 19, 69, 32, 93, 55, 50, 16]
 
-		       4
-	     9	      6
-	  17	  26	  8	  7
+		     4
+	     9     6
+	 17	  26	  8	  7
 	19  69  32  93  55  50  16
 
 
