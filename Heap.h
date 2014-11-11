@@ -116,9 +116,10 @@ std::pair<Pri,T> Heap<Pri,T>::remove(){
 	if (numItems == 0)
 		throw std::string("ERROR: No items to remove.");
 	std::pair<Pri,T> x = backingArray[0];
-	backingArray[0] = backingArray[--numItems];
-	backingArray[numItems - 1] = *(new std::pair<Pri,T>);
+	backingArray[0] = backingArray[numItems-1];
+	backingArray[numItems-1] = *(new std::pair<Pri,T>);
 	trickleDown(0);
+	numItems--;
 	return x;
 }
 
