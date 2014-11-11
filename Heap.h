@@ -56,33 +56,22 @@ template<class Pri, class T>
 Heap<Pri,T>::Heap(){
 	arrSize=START_SIZE;
 	numItems=0;
+	backingArray = new std::pair<Pri, T> [arrSize];
 }
 
 template<class Pri, class T>
 Heap<Pri,T>::~Heap(){
-	delete backingArray;
-}
-
-int parent(int i) {
-	return (i - 1) / 2;
-}
-int left(int i) {
-	return 2 * i + 1;
-}
-int right(int i) {
-	return 2 * i + 2;
+	delete[] backingArray;
 }
 
 template<class Pri, class T>
 void Heap<Pri,T>::grow(){
-	std::pair<Pri, T>* tmp = new std::pair<Pri, T>[arrSize * 2];
-
-	for(int i = 0; i < arrSize; i++)
-		tmp[i] = backingArray[i];
-
+	std::pair<Pri, T>* tempArray = backingArray;
 	arrSize *= 2;
-	delete[] backingArray;
-	backingArray = tmp;
+	backingArray = new std::pair<Pri, T> [arrSize];
+	for (int i = 0; i < numItems; i++)
+		add(tempArray[i]);
+	delete[] tempArray;
 }
 
 template<class Pri, class T>
@@ -95,43 +84,40 @@ void Heap<Pri,T>::add(std::pair<Pri,T> toAdd){
 
 template<class Pri, class T>
 void Heap<Pri,T>::bubbleUp(unsigned long i){
-	int p = parent(i);
-	while (i > 0 && backingArray[i] < backingArray[p]) {
-		backingArray.swap(i,p);
-		i = p;
-		p = parent(i);
+	int parent = (i - 1) / 2;
+	if (i > 0 && (backingArray[parent].first > backingArray[i].first)) {
+		backingArray[parent].swap(backingArray[i]);
+		bubbleUp(parent);
 	}
 }
 
 template<class Pri, class T>
 void Heap<Pri,T>::trickleDown(unsigned long i){
-	do {
-		int j = -1;
-		int r = right(i);
-		if (r < numItems && backingArray[r] < backingArray[i]) {
-			int l = left(i);
-			if (backingArray[l] < backingArray[r])
-				j = l;
-			else
-				j = r;
-		} else {
-			int l = left(i);
-			if (l < numItems && backingArray[l] < backingArray[i])
-				j = l;
+	int left = (2 * i) + 1;
+	int right = (2 * i) + 2;
+	if (backingArray[i] > backingArray[left] || backingArray[i] > backingArray[right]){
+		if (backingArray[left] < backingArray[right] && backingArray[left].second != "") {
+			backingArray[i].swap(backingArray[left]);
+			trickleDown(left);			
 		}
-		if (j >= 0) {
-			int tmp = backingArray[i];
-			backingArray[i] = backingArray[j];
-			backingArray[j] = tmp;
+		else if (backingArray[right].second != "") {
+			backingArray[i].swap(backingArray[right]);
+			trickleDown(right);
 		}
-		i = j;
-	} while (i >= 0);
+		else if (backingArray[left].second != "") {
+			backingArray[i].swap(backingArray[left]);
+			trickleDown(left);
+		}
+	}
 }
 
 template<class Pri, class T>
 std::pair<Pri,T> Heap<Pri,T>::remove(){
+	if (numItems == 0)
+		throw std::string("ERROR: No items to remove.");
 	std::pair<Pri,T> x = backingArray[0];
 	backingArray[0] = backingArray[--numItems];
+	backingArray[numItems - 1] = *(new std::pair<Pri,T>);
 	trickleDown(0);
 	return x;
 }
