@@ -27,7 +27,7 @@ Exercise 10.1: Illustrate the addition of the values 7 and then 3 to the BinaryH
 Now our heap reads: [4, 9, 6, 17, 26, 8, 7, 19, 69, 32, 93, 55, 50, 16]
 
 		     4
-	     9			6
+	     9			     6
 	 17	  26	  8	  7
 	19  69  32  93  55  50  16
 
