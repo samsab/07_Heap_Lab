@@ -93,19 +93,17 @@ void Heap<Pri,T>::bubbleUp(unsigned long i){
 
 template<class Pri, class T>
 void Heap<Pri,T>::trickleDown(unsigned long i){
-	int left = (2 * i) + 1;
-	int right = (2 * i) + 2;
-	if (backingArray[i] > backingArray[left] || backingArray[i] > backingArray[right]){
-		if (backingArray[left] < backingArray[right] && backingArray[left].second != "") {
-			backingArray[i].swap(backingArray[left]);
+	int left = (2 * index) + 1;
+	int right = (2 * index) + 2;
+	if (backingArray[index].first > backingArray[left].first || backingArray[index].first > backingArray[right].first){
+		if (backingArray[left].first < backingArray[right].first && (left < numItems)) {
+			backingArray[index].swap(backingArray[left]);
 			trickleDown(left);			
-		}
-		else if (backingArray[right].second != "") {
-			backingArray[i].swap(backingArray[right]);
+		} else if (right < numItems) {
+			backingArray[index].swap(backingArray[right]);
 			trickleDown(right);
-		}
-		else if (backingArray[left].second != "") {
-			backingArray[i].swap(backingArray[left]);
+		} else if (left < numItems) {
+			backingArray[index].swap(backingArray[left]);
 			trickleDown(left);
 		}
 	}
@@ -118,8 +116,8 @@ std::pair<Pri,T> Heap<Pri,T>::remove(){
 	std::pair<Pri,T> x = backingArray[0];
 	backingArray[0] = backingArray[numItems-1];
 	backingArray[numItems-1] = *(new std::pair<Pri,T>);
-	trickleDown(0);
 	numItems--;
+	trickleDown(0);
 	return x;
 }
 
